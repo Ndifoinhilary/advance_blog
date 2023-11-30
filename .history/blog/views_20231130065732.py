@@ -32,9 +32,7 @@ def post_dettail(request, year, month, day, post):
         publish__day=day,
         slug=post,
     )
-    comments = post.comments.filter(active=True)
-    form = CommentForm()
-    context = {"post": post, "comments": comments, "fomr": form}
+    context = {"post": post}
     return render(request, "blog/post/detail.html", context)
 
 
@@ -66,9 +64,9 @@ def post_comment(request, post_id):
         models.Post, id=post_id, status=models.Post.Status.PUBLISHED
     )
     comment = None
-    form = CommentForm(data=request.POST)
+    form = CommentForm()
     if form.is_valid():
-        comment = form.save(commit=False)
+        comment = form.save(commti=False)
         comment.post = post
         comment.save()
     return render(

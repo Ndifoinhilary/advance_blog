@@ -66,9 +66,9 @@ def post_comment(request, post_id):
         models.Post, id=post_id, status=models.Post.Status.PUBLISHED
     )
     comment = None
-    form = CommentForm(data=request.POST)
+    form = CommentForm()
     if form.is_valid():
-        comment = form.save(commit=False)
+        comment = form.save(commti=False)
         comment.post = post
         comment.save()
     return render(
