@@ -41,7 +41,7 @@ def post_dettail(request, year, month, day, post):
     comments = post.comments.filter(active=True)
     form = CommentForm()
     post_tags_id = post.tags.values_list("id", flat=True)
-    similar_posts = models.Post.published.filter(tags__in=post_tags_id).exclude(
+    similar_posts = models.Post.publish.filter(tags__in=post_tags_id).exclude(
         id=post.id
     )
     similar_posts = similar_posts.annotate(same_tags=Count("tags")).order_by(

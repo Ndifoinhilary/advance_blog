@@ -4,7 +4,6 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.mail import send_mail
 from django.conf import settings
 from django.views.decorators.http import require_POST
-from django.db.models import Count
 from blog.forms import EmailPostForm, CommentForm
 from taggit.models import Tag
 
@@ -40,19 +39,7 @@ def post_dettail(request, year, month, day, post):
     )
     comments = post.comments.filter(active=True)
     form = CommentForm()
-    post_tags_id = post.tags.values_list("id", flat=True)
-    similar_posts = models.Post.published.filter(tags__in=post_tags_id).exclude(
-        id=post.id
-    )
-    similar_posts = similar_posts.annotate(same_tags=Count("tags")).order_by(
-        "-same_tags", "-publish"
-    )[:4]
-    context = {
-        "post": post,
-        "comments": comments,
-        "fomr": form,
-        "similar_posts": similar_posts,
-    }
+    context = {"post": post, "comments": comments, "fomr": form}
     return render(request, "blog/post/detail.html", context)
 
 

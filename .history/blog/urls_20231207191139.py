@@ -3,7 +3,7 @@ from . import views
 
 app_name = "blog"
 
-urlpatterns = [0
+urlpatterns = [
     path("", views.post_list, name="post_list"),
     path("tag/<slug:tag_slug>/", views.post_list, name="post_list_by_tag"),
     path(
